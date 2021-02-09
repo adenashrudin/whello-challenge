@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 50px;
+}
+
+.header__title {
+  font-size: 47px;
+  text-decoration: underline;
+  color: #eb4a42;
+}
+
+.header__subtitle {
+  font-size: 22px;
+  color: #aaaaaa;
+}
