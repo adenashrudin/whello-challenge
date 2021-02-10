@@ -7,11 +7,13 @@
 
 .header__title {
   font-size: 47px;
+  font-family: "Montserrat-Regular";
   text-decoration: underline;
   color: #eb4a42;
 }
 
 .header__subtitle {
+  font-family: "Roboto-Light";
   font-size: 22px;
   color: #aaaaaa;
 }

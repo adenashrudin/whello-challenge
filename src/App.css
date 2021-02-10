@@ -6,8 +6,8 @@
 
 .container {
   background-color: #eaeaea;
-  margin: 40px 150px;
-  padding: 20px;
+  margin: 5rem auto;
+  padding: 2rem;
+  width: 70%;
+  max-width: 100%;
 }
-
-

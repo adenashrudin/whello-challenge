@@ -1,26 +1,36 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Form.css";
-const apiUrl = "/";
 
 export default function Form() {
   const [url, setUrl] = useState("");
 
+  function makeShortCode(length) {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const urlData = {
+    const shorCode = makeShortCode(6);
+    const data = {
       url: url,
-      shortcode: "x6f7a1",
+      shortcode: shorCode,
     };
     const headers = {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
     };
     axios
-      .post(apiUrl, urlData, headers)
+      .post("/shorten", data, headers)
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
+        localStorage.setItem(shorCode, url);
+        setUrl("");
       })
       .catch((err) => {
         console.log(err);
@@ -32,6 +42,7 @@ export default function Form() {
       <input
         type="text"
         className="link__shorter__input"
+        value={url}
         onChange={(val) => {
           return setUrl(val.target.value);
         }}
