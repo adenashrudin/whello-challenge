@@ -24,10 +24,10 @@ export default function Form() {
       loading: true,
     });
     e.preventDefault();
-    const shorCode = makeShortCode(6);
+    const shortCode = makeShortCode(6);
     const data = {
       url: url,
-      shortcode: shorCode,
+      shortcode: shortCode,
     };
     const headers = {
       "Content-Type": "application/json",
@@ -35,11 +35,18 @@ export default function Form() {
     axios
       .post("/shorten", data, headers)
       .then((res) => {
-        localStorage.setItem(shorCode, url);
+        localStorage.setItem(shortCode, url);
+
         dispatch({
           type: "SET_LOADING",
           loading: false,
         });
+
+        dispatch({
+          type: "SET_CODE",
+          codeNewInput: shortCode,
+        });
+
         setTimeout(() => {
           setUrl("");
         }, 1000);

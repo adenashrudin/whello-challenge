@@ -7,9 +7,10 @@ import ReactLoading from "react-loading";
 import { useDataLayerValue } from "../../state-provider/DataLayer";
 
 export default function HistoryLink() {
-  const [{ loading }, dispatch] = useDataLayerValue();
+  const [{ loading, codeNewInput }, dispatch] = useDataLayerValue();
   const [datas, setData] = useState([]);
   const [isHover, setIsHover] = useState({});
+  const [isCopied, setIsCopied] = useState({});
 
   const handleClick = () => {
     dispatch({
@@ -56,6 +57,7 @@ export default function HistoryLink() {
                 lastSeenDate: res.data.lastSeenDate,
               })
             );
+
             dispatch({
               type: "SET_LOADING",
               loading: false,
@@ -88,6 +90,13 @@ export default function HistoryLink() {
 
   const handleMouseLeave = (index) => {
     setIsHover({ ...isHover, [index]: false });
+  };
+
+  const hannleCopied = (index) => {
+    setIsCopied({ ...isCopied, [index]: true });
+    setTimeout(() => {
+      setIsCopied({ ...isCopied, [index]: false });
+    }, 1000);
   };
 
   return (
@@ -134,7 +143,9 @@ export default function HistoryLink() {
                       <tr key={data.shortCode}>
                         <td
                           className={`thead__left short__link__container ${
-                            index === 0 ? "border" : ""
+                            index === 0 && data.shortCode === codeNewInput
+                              ? "border"
+                              : ""
                           }`}
                           align="left"
                         >
@@ -145,6 +156,7 @@ export default function HistoryLink() {
                           >
                             <CopyToClipboard
                               text={`https://impraise-shorty.herokuapp.com/${data.shortCode}`}
+                              onCopy={() => hannleCopied(index)}
                             >
                               <span>
                                 <p>
@@ -153,6 +165,9 @@ export default function HistoryLink() {
                                 </p>
                               </span>
                             </CopyToClipboard>
+                            {isCopied[index] ? (
+                              <span style={{ color: "red" }}>Copied.</span>
+                            ) : null}
                             {isHover[index] && (
                               <p className="copy__link">
                                 Click to copy this link
