@@ -79,3 +79,9 @@ tbody {
 .thead__left.short__link__container {
   padding-left: 10px;
 }
+
+.container__history > .loading {
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}

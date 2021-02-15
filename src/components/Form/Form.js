@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Form.css";
+import { useDataLayerValue } from "../../state-provider/DataLayer";
 
 export default function Form() {
   const [url, setUrl] = useState("");
+  const [{}, dispatch] = useDataLayerValue();
 
   function makeShortCode(length) {
     var result = "";
@@ -17,6 +19,10 @@ export default function Form() {
   }
 
   const handleSubmit = (e) => {
+    dispatch({
+      type: "SET_LOADING",
+      loading: true,
+    });
     e.preventDefault();
     const shorCode = makeShortCode(6);
     const data = {
@@ -30,10 +36,16 @@ export default function Form() {
       .post("/shorten", data, headers)
       .then((res) => {
         localStorage.setItem(shorCode, url);
-        setUrl("");
+        dispatch({
+          type: "SET_LOADING",
+          loading: false,
+        });
+        setTimeout(() => {
+          setUrl("");
+        }, 1000);
       })
       .catch((err) => {
-        console.log(err);
+        window.alert(err);
       });
   };
 
